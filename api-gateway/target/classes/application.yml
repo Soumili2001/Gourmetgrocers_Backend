@@ -1,0 +1,57 @@
+eureka:
+  client:
+    backup-registry-impl: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+server:
+  port: 9000
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      globalcors:
+
+        cors-configurations:
+
+          '[/**]':
+
+            allowedOrigins: "*"
+
+            allowedHeaders:
+
+               - content-type
+
+            allowed-methods:
+
+              - GET
+
+              - POST
+
+              - PUT
+
+              - DELETE
+      routes:
+      - id: USER-SERVICE
+        predicates:
+        - Path=/user/**
+        uri: lb://USER-SERVICE
+      - id: PRODUCT-SERVICE
+        predicates:
+        - Path=/products/**
+        uri: lb://PRODUCT-SERVICE
+      - id: CATEGORY-SERVICE
+        predicates:
+        - Path=/categories/**
+        uri: lb://CATEGORY-SERVICE
+      - id: CART-SERVICE
+        predicates:
+        - Path=/cart/**
+        uri: lb://CART-SERVICE
+      - id: ORDER-SERVICE
+        predicates:
+        - Path=/orders/**
+        uri: lb://ORDER-SERVICE
